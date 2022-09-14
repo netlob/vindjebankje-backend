@@ -125,3 +125,9 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+troep/
+uploads/
+.env
+vindjebankje-firebase-adminsdk-azmpu-f21a7fd381.json
+.DS_Store
