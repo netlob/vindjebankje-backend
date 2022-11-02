@@ -114,7 +114,7 @@ export class ElasticService extends ElasticsearchService {
 }
 
 export enum Index {
-  BENCH = 'bankjes',
+  BENCH = 'bankjes2',
 }
 
 export interface ElasticObject {
