@@ -92,11 +92,11 @@ export class BenchesService {
           filter: {
             geo_bounding_box: {
               location: {
-                top_left: {
+                top_right: {
                   lat: query.lat1,
                   lon: query.lon1,
                 },
-                bottom_right: {
+                bottom_left: {
                   lat: query.lat2,
                   lon: query.lon2,
                 },
@@ -123,52 +123,22 @@ export class BenchesService {
 
     const benches = res.hits.hits as unknown as [
       {
-        _source: { id: string; location: { lon: number; lat: number } };
-      },
-    ];
-
-    const geojson = {
-      type: 'FeatureCollection',
-      // crs: {
-      //   type: 'name',
-      //   properties: {
-      //     name: 'benches',
-      //   },
-      // },
-      features: [],
-    };
-
-    console.log('Benches found', benches.length);
-
-    benches.forEach(
-      (bench: {
         _source: {
           id: string;
           name: string;
           tags: any;
           location: { lon: number; lat: number };
         };
-      }) => {
-        geojson.features.push({
-          type: 'Feature',
-          id: bench._source.id,
-          properties: {
-            id: bench._source.id,
-            name: bench._source.name,
-            tags: bench._source.tags,
-          },
-          geometry: {
-            type: 'Point',
-            coordinates: [
-              bench._source.location.lon,
-              bench._source.location.lat,
-              1,
-            ],
-          },
-        });
       },
-    );
+    ];
 
-    return geojson;
+    return benches.map((bench) => {
+      return {
+        id: bench._source.id,
+        name: bench._source.name,
+        location: [bench._source.location.lat, bench._source.location.lon],
+        tags: bench._source.tags,
+      };
+    });
   }
 }
